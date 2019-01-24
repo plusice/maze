@@ -173,7 +173,7 @@
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
-    "_id": "23900M4yhO1aEKzgCtJndo"
+    "_id": "8bjEasFy5KH6T0lEART2O2"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -275,7 +275,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "07YxcCgCRKwY4rUZDpTj4M"
+    "_id": "81QW+cq15FPYdimAs8Noob"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -316,7 +316,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 42.26,
+      "width": 76.67,
       "height": 20
     },
     "_anchorPoint": {
@@ -362,8 +362,8 @@
     "_srcBlendFactor": 1,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "label",
-    "_N$string": "label",
+    "_string": "加载中...",
+    "_N$string": "加载中...",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -374,7 +374,7 @@
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
-    "_id": "bdl++8oVlNNb/ibzvLM0dy"
+    "_id": "a0RMPQ5MRPhLhL2QyCGcUq"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -415,7 +415,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 11.12,
+      "width": 6.66,
       "height": 20
     },
     "_anchorPoint": {
@@ -461,8 +461,8 @@
     "_srcBlendFactor": 1,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "4",
-    "_N$string": "4",
+    "_string": "-",
+    "_N$string": "-",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -473,7 +473,7 @@
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
-    "_id": "f60DLuW4dGPKHFwgjPQavT"
+    "_id": "e0sYOTxVZAva1Vfr+62TNt"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -514,7 +514,7 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 11.12,
+      "width": 6.66,
       "height": 20
     },
     "_anchorPoint": {
@@ -560,8 +560,8 @@
     "_srcBlendFactor": 1,
     "_dstBlendFactor": 771,
     "_useOriginalSize": false,
-    "_string": "4",
-    "_N$string": "4",
+    "_string": "-",
+    "_N$string": "-",
     "_fontSize": 20,
     "_lineHeight": 20,
     "_enableWrapText": true,
@@ -572,7 +572,7 @@
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
-    "_id": "85PO4ZOd9HrrtngKvWdU+z"
+    "_id": "5eDrZtLztHb7FZacgQYFFo"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -608,7 +608,7 @@
     "time": {
       "__id__": 15
     },
-    "_id": "96NVB6aFFK25iyy3BMMr7i"
+    "_id": "43Us16xJ5HfqNORh+apvZO"
   },
   {
     "__type__": "cc.PrefabInfo",
