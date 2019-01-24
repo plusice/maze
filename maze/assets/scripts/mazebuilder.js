@@ -98,7 +98,6 @@ Maze.prototype.generate = function () {
     //     value:1
     // };
     let deepestNode = trash[0];
-    console.log(trash)
     trash.forEach(node => {
         if (deepestNode.deep < node.deep) {
             deepestNode = node;

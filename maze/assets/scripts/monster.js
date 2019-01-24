@@ -1,4 +1,4 @@
-var global = require('global');
+let global = require('global');
 
 cc.Class({
     extends: cc.Component,
@@ -17,7 +17,7 @@ cc.Class({
             chickAudio.autoplay = true;
             chickAudio.src = cc.url.raw('resources/audio/ripe-chick.mp3');
         }
-        var sprite = this.node.getComponent(cc.Sprite);
+        let sprite = this.node.getComponent(cc.Sprite);
         sprite.spriteFrame = this.ripeSprite.spriteFrame;
         this.game.stopGame();
         this.game.ripeGame();

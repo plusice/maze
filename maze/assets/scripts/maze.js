@@ -49,17 +49,17 @@ cc.Class({
    */
   paintMaze: function() {
     // 根据关卡改变迷宫道路数目
-    var roadNum =  global.level > global.maxLevel ? (global.maxLevel - 1 + 2) : (global.level - 1 + 2),
+    let roadNum =  global.level > global.maxLevel ? (global.maxLevel - 1 + 2) : (global.level - 1 + 2),
       startPoint = [1, 1],
       endPoint = [1,1];
-    var maze = new MazeBuilder(roadNum, roadNum, startPoint);
+    let maze = new MazeBuilder(roadNum, roadNum, startPoint);
     maze.generate();
     endPoint = [maze.deepestNode.y, maze.deepestNode.x];
     this.mazeArray = maze.mazeDataArray;
-    var i = 0, j = 0;
-    var iLen = this.mazeArray.length,
+    let i = 0, j = 0;
+    let iLen = this.mazeArray.length,
       jLen = this.mazeArray[0].length;
-    var offsetI = iLen * this.cubeWith / 2 - this.cubeWith / 2,
+    let offsetI = iLen * this.cubeWith / 2 - this.cubeWith / 2,
       offsetJ = jLen * this.cubeWith / 3 - this.cubeWith / 2;
     for (i = 0; i < iLen; i++) {
       for (j = 0; j < this.mazeArray[i].length; j++) {
@@ -127,7 +127,7 @@ cc.Class({
             prefab = this.mazeLinePrefab;
           }
           // 使用给定的模板在场景中生成一个新节点
-          var cube = cc.instantiate(prefab);
+          let cube = cc.instantiate(prefab);
           // 将新增的节点添加到 Canvas 节点下面
           this.node.addChild(cube);
           if (rotation) {
@@ -256,8 +256,8 @@ cc.Class({
       jLen = this.mazeArray[0].length;
     let offsetI = iLen * this.cubeWith / 2 - this.cubeWith / 2,
       offsetJ = jLen * this.cubeWith / 3 - this.cubeWith / 2;
-    for (var i = 0; i < iLen; i++) {
-      for (var j = 0; j < this.mazeArray[i].length; j++) {
+    for (let i = 0; i < iLen; i++) {
+      for (let j = 0; j < this.mazeArray[i].length; j++) {
         if (this.mazeArray[i][j].value === 0) {
           wallPoints.push({
             x: i,

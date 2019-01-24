@@ -185,7 +185,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "1dEl5Yk+1AqqZvEbk21XDi"
+    "_id": "dbUm8ZqI1B9qpK3emuP9AR"
   },
   {
     "__type__": "cc.Button",
@@ -238,7 +238,7 @@
     "_N$target": {
       "__id__": 2
     },
-    "_id": "851bYNjx9IzYsugEvaiwW4"
+    "_id": "44f2c6TclNVrH4D7oL/S8/"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -343,7 +343,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "002eH+vJNGMbHJgjuEeZQ7"
+    "_id": "cfocNAiYtE9JZKSF51qh2P"
   },
   {
     "__type__": "3956c9EdE1HA52+bt8vMyJV",
@@ -353,7 +353,7 @@
       "__id__": 6
     },
     "_enabled": true,
-    "_id": "715bLaFq5JvrznXT+Pe+oY"
+    "_id": "05UVTy3ZVHkLjFDLvQA87v"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -455,7 +455,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "9boHIEjYhKxZnQYsHpp7aM"
+    "_id": "72uwJaPdJE9bFaZPMuAiga"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -554,7 +554,7 @@
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 0,
-    "_id": "72rrFFX89IYo0N5L/57KCW"
+    "_id": "c1HTly7S9BnZwfmIVnTwqk"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -713,7 +713,7 @@
     "_useOriginalSize": false,
     "_string": "下一关",
     "_N$string": "下一关",
-    "_fontSize": 20,
+    "_fontSize": 28,
     "_lineHeight": 40,
     "_enableWrapText": false,
     "_N$file": null,
@@ -723,7 +723,7 @@
     "_N$verticalAlign": 1,
     "_N$fontFamily": "Arial",
     "_N$overflow": 1,
-    "_id": "40pJGNG+FDEYsDOKNv0SAY"
+    "_id": "9aDCqufY5KA6Nj9Nmw8At1"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -762,7 +762,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "58rjc3ddhORY2ZOXYzPia/"
+    "_id": "65s/f7wUFEW5jmTZKzoiJW"
   },
   {
     "__type__": "cc.Button",
@@ -831,7 +831,7 @@
     "_N$target": {
       "__id__": 16
     },
-    "_id": "7ei8hL1yZHLrwkrNGOZG7r"
+    "_id": "014tAtIx1N6r7DUVBMuxfR"
   },
   {
     "__type__": "cc.ClickEvent",
@@ -942,7 +942,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "f5lG2hxn5Kj62iRqD1QcbR"
+    "_id": "fdRz6UWFNC/6G+GGLIVeWd"
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -979,7 +979,7 @@
     "_isTrimmedMode": true,
     "_state": 0,
     "_atlas": null,
-    "_id": "60BAGnJHNHT4sMePpkcQJE"
+    "_id": "cdg4BtXAxMtYqsAQbLE7UC"
   },
   {
     "__type__": "7e9bfRKYZZEBq/DmQNHQ74J",
@@ -989,7 +989,7 @@
       "__id__": 1
     },
     "_enabled": true,
-    "_id": "b1HRemm4lHhadvgOhNZwcH"
+    "_id": "17NPPOcpdGHIIt4YVBDAZt"
   },
   {
     "__type__": "cc.PrefabInfo",

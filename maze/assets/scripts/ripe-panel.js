@@ -1,4 +1,4 @@
-var global = require('global');
+let global = require('global');
 
 cc.Class({
   extends: cc.Component,
@@ -30,8 +30,8 @@ cc.Class({
   },
 
   restartGame () {
-    global.level = 1;
-    global.time = 0;
+    // global.level = 1;
+    // global.time = 0;
     cc.director.loadScene('main');
   },
 
