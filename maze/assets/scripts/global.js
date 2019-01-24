@@ -16,5 +16,20 @@ module.exports = {
   },
   stopTik () {
     clearInterval(this.interval);
+  },
+  // 获取分享文本
+  getShareText (code, level) {
+    let text = '';
+    switch(code){
+    case 1:
+      text = `我在小鸡电迷宫闯了${level}关，等你来超越！`;
+      break;
+    case 2:
+      text = '过年啦，迷宫里的小鸡仔要被吃啦，快点帮它逃出来吧～';
+      break;
+    default:
+      text = `我在小鸡电迷宫闯了${level}关，等你来超越！`;
+    }
+    return text;
   }
 };

@@ -47,7 +47,7 @@ if (global.cos_env === 'wx') {
   // 默认分享文案
   wx.onShareAppMessage(function () {
     return {
-      title: `我在小鸡电迷宫闯了${global.level}关，等你来超越！`,
+      title: global.getShareText(2),
       imageUrl: imageUrl
     };
   });
@@ -189,11 +189,9 @@ cc.Class({
     this.maze.getComponent('maze').clearElectricAndSound();
     // 暂停物理系统
     cc.director.getPhysicsManager().enabled = false;
-    if (global.sysInfo.SDKVersion >= '2.0.4') {
-      // 显示广告
-      if (ad.bannerAd && ad.hasBannerAd) {
-        ad.bannerAd.show();
-      }
+    // 显示广告
+    if (ad.bannerAd && ad.hasBannerAd) {
+      ad.bannerAd.show();
     }
   },
   // 开始游戏并恢复速度

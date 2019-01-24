@@ -43,7 +43,7 @@ cc.Class({
       // 没有复活过，这里是分享
       cc.loader.loadRes("img/share",(err,data) => {
         this.game.shareGame({
-          title: `我在小鸡电迷宫闯了${global.level}关，等你来超越！`,
+          title: global.getShareText(2),
           imageUrl: data.url
         });
         setTimeout(() => {
