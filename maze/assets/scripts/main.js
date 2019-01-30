@@ -24,11 +24,14 @@ var ad = {
     this.bannerAd = wx.createBannerAd({
       adUnitId: 'adunit-0eb5472c658d89c2',
       style: {
-        left: 0,
-        top: global.sysInfo.screenHeight - 115,
-        width: global.sysInfo.screenWidth,
-        height: 100
+        left: 10,
+        top: global.sysInfo.screenHeight - 140,
+        width: global.sysInfo.screenWidth - 20
       }
+    });
+    this.bannerAd.onResize(res => {
+      // iphonex等机型（屏幕比较高），广告不能跟底部的控制条重合
+      this.bannerAd.style.top = global.sysInfo.screenHeight - res.height - (global.sysInfo.screenHeight/global.sysInfo.screenWidth > 1.9 ? 20 : 10);
     });
     this.bannerAd.onError(err => {
       console.log(err);
@@ -77,8 +80,6 @@ if (global.cos_env === 'wx') {
       if (!hasPlayed) {
         comp && comp.showHelp();
         wx.setStorageSync('hasPlayed', 'yes');
-      } else {
-        global.tik();
       }
     }).catch((err) => {
       console.log(err)
@@ -125,6 +126,9 @@ cc.Class({
     // 开启物理系统
     cc.director.getPhysicsManager().enabled = true;
     cc.director.getPhysicsManager().gravity = cc.v2();
+
+    // 开始计时
+    global.tik();
 
     if (global.cos_env === 'wx') {
       loaded();
@@ -189,10 +193,6 @@ cc.Class({
     this.maze.getComponent('maze').clearElectricAndSound();
     // 暂停物理系统
     cc.director.getPhysicsManager().enabled = false;
-    // 显示广告
-    if (ad.bannerAd && ad.hasBannerAd) {
-      ad.bannerAd.show();
-    }
   },
   // 开始游戏并恢复速度
   startGame () {
@@ -242,8 +242,23 @@ cc.Class({
         time: global.time
       });
     }
+
+    // 显示广告
+    if (ad.bannerAd && ad.hasBannerAd) {
+      ad.bannerAd.show();
+    }
   },
   // 触电
+
+
+
+
+  // 第一次显示排行榜和立即复活
+  // 第二次显示分享和重新开始
+
+
+
+
   ripeGame () {
     if (this.riped) {
       return false;
@@ -252,21 +267,19 @@ cc.Class({
     this.stopGame();
     setTimeout(() => {
       this.ripePanel = cc.instantiate(this.ripePanelPrefab);
-      // 复活过了不能再分享复活了，显示排行榜
+      // 复活过了不能再复活了
       if (this.revived) {
-        this.ripePanel.getChildByName('share').getChildByName('Label').getComponent(cc.Label).string = '排行榜';
+        this.ripePanel.getChildByName('restart').getChildByName('Label').getComponent(cc.Label).string = '再来一次';
+        this.ripePanel.getChildByName('share').getChildByName('Label').getComponent(cc.Label).string = '分享战绩';
       }
       this.ripePanel.getComponent('ripe-panel').game = this;
       this.dialogWrapper.addChild(this.ripePanel);
     }, 500);
 
-    // 记录分数
-    // if (global.cos_env === 'wx') {
-    //   wx.getOpenDataContext().postMessage({
-    //     score: global.level,
-    //     time: global.time
-    //   });
-    // }
+    // 显示广告
+    if (ad.bannerAd && ad.hasBannerAd) {
+      ad.bannerAd.show();
+    }
   },
   // 复活一次，复活后速度为0
   revive () {
@@ -294,7 +307,8 @@ cc.Class({
   showRank (isGroupRank) {
     if (!this.rankPanel.active) {
       this.stopGame();
-      this.rankPanel.setPosition(0, 0);
+      // 排行榜高一点，不然会被广告挡住
+      this.rankPanel.setPosition(0, 30);
       this.rankPanel.active = true;
     }
     if (isGroupRank === true) {
@@ -303,6 +317,10 @@ cc.Class({
     } else {
       this.rankPanel.getChildByName('share').getChildByName('label').getComponent(cc.Label).string = '查看群排行';
       this.rankPanel.getChildByName('close').getChildByName('label').getComponent(cc.Label).string = '关闭';
+    }
+    // 显示广告
+    if (ad.bannerAd && ad.hasBannerAd) {
+      ad.bannerAd.show();
     }
   }
 });

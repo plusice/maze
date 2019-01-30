@@ -10,6 +10,9 @@ module.exports = {
   sysInfo: sysInfo,
   platform: sysInfo.platform,
   tik () {
+    if (this.interval) {
+      clearInterval(this.interval);
+    }
     this.interval = setInterval(() => {
       this.time++;
     }, 1000);

@@ -55,10 +55,11 @@ cc.Class({
         keyList: ['level'],
         success (res) {
           if (res.KVDataList && res.KVDataList[0]) {
-            let oldScore = 1;
             try {
-              oldScore = JSON.parse(res.KVDataList[0].value).wxgame.score;
-              if (score >= oldScore) {
+              let oldData = JSON.parse(res.KVDataList[0].value);
+              let oldScore = oldData.wxgame.score;
+              let oldTime = oldData.time || oldData.wxgame.time;
+              if (score > oldScore || (score == oldScore && oldTime > time)) {
                 wx.setUserCloudStorage({
                   KVDataList: [{
                     key: 'level',
