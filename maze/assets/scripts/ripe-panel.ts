@@ -16,7 +16,7 @@ export default class NewClass extends cc.Component {
 		} else {
 		  this.game.revive();
 		}
-	},
+	}
 
 	shareOrRank () {
 		// 复活过，这里是分享

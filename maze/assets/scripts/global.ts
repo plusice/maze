@@ -21,7 +21,7 @@ export default {
     clearInterval(this.interval);
   },
   // 获取分享文本
-  getShareText (code, level) {
+  getShareText (code:number, level?:number) {
     let text = '';
     switch(code){
     case 1:
