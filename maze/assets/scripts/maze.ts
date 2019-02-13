@@ -1,40 +1,34 @@
-var MazeBuilder = require('mazebuilder');
-var global = require('global');
+const {ccclass, property} = cc._decorator;
 
-cc.Class({
-  extends: cc.Component,
+import MazeBuilder from './mazebuilder';
+import  global from './global';
 
-  properties: {
-    electricNode: {
-      default: null,
-      type: cc.Node
-    },
-    mazeCrossPrefab: {
-      default: null,
-      type: cc.Prefab
-    },
-    mazeLinePrefab: {
-      default: null,
-      type: cc.Prefab
-    },
-    mazeTPrefab: {
-      default: null,
-      type: cc.Prefab
-    },
-    mazeTurnPrefab: {
-      default: null,
-      type: cc.Prefab
-    },
-    mazeShortPrefab: {
-      default: null,
-      type: cc.Prefab
-    },
-    flag: cc.Node,
-    sprite: cc.Node,
-    cubeWith: 36
-  },
+@ccclass
+export default class NewClass extends cc.Component {
+  private mazeArray:any[];
+  private electricTimer:any = null;
+  private chickTimer:any = null;
 
-  onLoad: function() {
+  @property(cc.Node)
+  electricNode: cc.Node = null
+  @property(cc.Prefab)
+  mazeCrossPrefab: cc.Prefab = null
+  @property(cc.Prefab)
+  mazeLinePrefab: cc.Prefab = null
+  @property(cc.Prefab)
+  mazeTPrefab: cc.Prefab = null
+  @property(cc.Prefab)
+  mazeTurnPrefab: cc.Prefab = null
+  @property(cc.Prefab)
+  mazeShortPrefab: cc.Prefab = null
+  @property(cc.Node)
+  flag: cc.Node;
+  @property(cc.Node)
+  sprite: cc.Node;
+  @property(Number)
+  cubeWith:number =  36
+
+  onLoad() {
     // 根据关卡改变迷宫通道宽度
     if (global.level <= global.maxLevel) {
       this.cubeWith = 36;
@@ -43,11 +37,11 @@ cc.Class({
     }
     this.paintMaze();
     this.playElectricAndSound();
-  },
+  }
   /**
    * MazeBuilder构建迷宫数组，画迷宫。1～7关逐步增加迷宫道路数目，8～14关缩小迷宫通道宽度，道路数目重新从最小到最大逐步增加，15～21类似
    */
-  paintMaze: function() {
+  paintMaze() {
     // 根据关卡改变迷宫道路数目
     let roadNum =  global.level > global.maxLevel ? (global.maxLevel - 1 + 2) : (global.level - 1 + 2),
       startPoint = [1, 1],
@@ -69,69 +63,69 @@ cc.Class({
           var prefab = undefined, rotation = undefined;
           switch(prefabType) {
           case 'vLine':
-            prefab = this.mazeLinePrefab;
-            break;
+          prefab = this.mazeLinePrefab;
+          break;
           case 'hLine':
-            prefab = this.mazeLinePrefab;
-            rotation = 90;
-            break;
+          prefab = this.mazeLinePrefab;
+          rotation = 90;
+          break;
           case 'topT':
-            prefab = this.mazeTPrefab;
-            rotation = -90;
-            break;
+          prefab = this.mazeTPrefab;
+          rotation = -90;
+          break;
           case 'rightT':
-            prefab = this.mazeTPrefab;
-            break;
+          prefab = this.mazeTPrefab;
+          break;
           case 'btmT':
-            prefab = this.mazeTPrefab;
-            rotation = 90;
-            break;
+          prefab = this.mazeTPrefab;
+          rotation = 90;
+          break;
           case 'leftT':
-            prefab = this.mazeTPrefab;
-            rotation = 180;
-            break;
+          prefab = this.mazeTPrefab;
+          rotation = 180;
+          break;
           case 'leftTopTurn':
-            prefab = this.mazeTurnPrefab;
-            rotation = 180;
-            break;
+          prefab = this.mazeTurnPrefab;
+          rotation = 180;
+          break;
           case 'topRightTurn':
-            prefab = this.mazeTurnPrefab;
-            rotation = -90;
-            break;
+          prefab = this.mazeTurnPrefab;
+          rotation = -90;
+          break;
           case 'rightBtmTurn':
-            prefab = this.mazeTurnPrefab;
-            break;
+          prefab = this.mazeTurnPrefab;
+          break;
           case 'btmLeftTurn':
-            prefab = this.mazeTurnPrefab;
-            rotation = 90;
-            break;
+          prefab = this.mazeTurnPrefab;
+          rotation = 90;
+          break;
           case 'leftShort':
-            prefab = this.mazeShortPrefab;
-            rotation = 90;
-            break;
+          prefab = this.mazeShortPrefab;
+          rotation = 90;
+          break;
           case 'topShort':
-            prefab = this.mazeShortPrefab;
-            rotation = 180;
-            break;
+          prefab = this.mazeShortPrefab;
+          rotation = 180;
+          break;
           case 'rightShort':
-            prefab = this.mazeShortPrefab;
-            rotation = -90;
-            break;
+          prefab = this.mazeShortPrefab;
+          rotation = -90;
+          break;
           case 'btmShort':
-            prefab = this.mazeShortPrefab;
-            break;
+          prefab = this.mazeShortPrefab;
+          break;
           case 'cross':
-            prefab = this.mazeCrossPrefab;
-            break;
+          prefab = this.mazeCrossPrefab;
+          break;
           default:
-            prefab = this.mazeLinePrefab;
+          prefab = this.mazeLinePrefab;
           }
           // 使用给定的模板在场景中生成一个新节点
           let cube = cc.instantiate(prefab);
           // 将新增的节点添加到 Canvas 节点下面
           this.node.addChild(cube);
           if (rotation) {
-            cube.setRotation(rotation);
+          cube.setRotation(rotation);
           }
           cube.setPosition(cc.v2(i * this.cubeWith - offsetI, j * this.cubeWith - offsetJ));
         }
@@ -139,7 +133,7 @@ cc.Class({
     }
     this.flag.setPosition(cc.v2(endPoint[0] * this.cubeWith - offsetI, endPoint[1] * this.cubeWith - offsetJ));
     this.sprite.setPosition(cc.v2(startPoint[0] * this.cubeWith - offsetI, (startPoint[1]) * this.cubeWith - offsetJ));
-  },
+  }
   /**
    * 获取坐标的墙的类型，可能是转角墙、十字墙、一面墙、半面墙
    * @param {number} x 坐标
@@ -158,94 +152,94 @@ cc.Class({
     if (mazeArray[x][y+1] && mazeArray[x][y+1].value === 0) {
       // btm有墙
       if (mazeArray[x][y-1] && mazeArray[x][y-1].value === 0) {
-        // left有墙
-        if (mazeArray[x-1] && mazeArray[x-1][y] && mazeArray[x-1][y].value === 0) {
-          // right有墙
-          if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
-            return 'cross';
-          // right无墙
-          } else {
-            return 'leftT';
-          }
-        // left无墙
+      // left有墙
+      if (mazeArray[x-1] && mazeArray[x-1][y] && mazeArray[x-1][y].value === 0) {
+        // right有墙
+        if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
+        return 'cross';
+        // right无墙
         } else {
-          // right有墙
-          if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
-            return 'rightT';
-          // right无墙
-          } else {
-            return 'vLine';
-          }
+        return 'leftT';
         }
+      // left无墙
+      } else {
+        // right有墙
+        if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
+        return 'rightT';
+        // right无墙
+        } else {
+        return 'vLine';
+        }
+      }
       // btm无墙
       } else {
-        // left有墙
-        if (mazeArray[x-1] && mazeArray[x-1][y] && mazeArray[x-1][y].value === 0) {
-          // right有墙
-          if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
-            return 'topT';
-          // right无墙
-          } else {
-            return 'leftTopTurn';
-          }
-        // left无墙
+      // left有墙
+      if (mazeArray[x-1] && mazeArray[x-1][y] && mazeArray[x-1][y].value === 0) {
+        // right有墙
+        if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
+        return 'topT';
+        // right无墙
         } else {
-          // right有墙
-          if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
-            return 'topRightTurn';
-          // right无墙
-          } else {
-            return 'topShort';
-          }
+        return 'leftTopTurn';
         }
+      // left无墙
+      } else {
+        // right有墙
+        if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
+        return 'topRightTurn';
+        // right无墙
+        } else {
+        return 'topShort';
+        }
+      }
       }
     // top无墙
     } else {
       // btm有墙
       if (mazeArray[x][y-1] && mazeArray[x][y-1].value === 0) {
-        // left有墙
-        if (mazeArray[x-1] && mazeArray[x-1][y] && mazeArray[x-1][y].value === 0) {
-          // right有墙
-          if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
-            return 'btmT';
-          // right无墙
-          } else {
-            return 'btmLeftTurn';
-          }
-        // left无墙
+      // left有墙
+      if (mazeArray[x-1] && mazeArray[x-1][y] && mazeArray[x-1][y].value === 0) {
+        // right有墙
+        if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
+        return 'btmT';
+        // right无墙
         } else {
-          // right有墙
-          if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
-            return 'rightBtmTurn';
-          // right无墙
-          } else {
-            return 'btmShort';
-          }
+        return 'btmLeftTurn';
         }
-      // btm无墙
+      // left无墙
       } else {
-        // left有墙
-        if (mazeArray[x-1] && mazeArray[x-1][y] && mazeArray[x-1][y].value === 0) {
-          // right有墙
-          if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
-            return 'hLine';
-          // right无墙
-          } else {
-            return 'leftShort';
-          }
-        // left无墙
+        // right有墙
+        if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
+        return 'rightBtmTurn';
+        // right无墙
         } else {
-          // right有墙
-          if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
-            return 'rightShort';
-          // right无墙
-          } else {
-            return 'hLine';
-          }
+        return 'btmShort';
         }
       }
+      // btm无墙
+      } else {
+      // left有墙
+      if (mazeArray[x-1] && mazeArray[x-1][y] && mazeArray[x-1][y].value === 0) {
+        // right有墙
+        if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
+        return 'hLine';
+        // right无墙
+        } else {
+        return 'leftShort';
+        }
+      // left无墙
+      } else {
+        // right有墙
+        if (mazeArray[x+1] && mazeArray[x+1][y] && mazeArray[x+1][y].value === 0) {
+        return 'rightShort';
+        // right无墙
+        } else {
+        return 'hLine';
+        }
+      }
+      }
     }
-  },
+  }
   /**
    * 播放闪电和声音
    */
@@ -258,12 +252,12 @@ cc.Class({
       offsetJ = jLen * this.cubeWith / 3 - this.cubeWith / 2;
     for (let i = 0; i < iLen; i++) {
       for (let j = 0; j < this.mazeArray[i].length; j++) {
-        if (this.mazeArray[i][j].value === 0) {
-          wallPoints.push({
-            x: i,
-            y: j
-          });
-        }
+      if (this.mazeArray[i][j].value === 0) {
+        wallPoints.push({
+        x: i,
+        y: j
+        });
+      }
       }
     }
 
@@ -295,7 +289,7 @@ cc.Class({
       electricAudio && electricAudio.play();
 
       this.electricTimer = setTimeout(() => {
-        play.call(this);
+      play.call(this);
       }, [Math.random() * 3000 + 300, 4000][Math.floor(Math.random() * 2)]);
     }
     // 随机时间小鸡叫
@@ -306,24 +300,23 @@ cc.Class({
       chickAudio && chickAudio.play();
 
       this.chickTimer = setTimeout(() => {
-        playChickSound.call(this);
+      playChickSound.call(this);
       }, [Math.random() * 3000 + 2000, 5000][Math.floor(Math.random() * 2)]);
     }
-  },
+    }
 
-  clearElectricAndSound () {
+    clearElectricAndSound () {
     clearTimeout(this.electricTimer);
     clearTimeout(this.chickTimer);
     return this;
-  },
+  }
 
   start () {
 
-  },
+  }
 
   onDestroy () {
     clearTimeout(this.electricTimer);
     this.electricTimer = null;
   }
-
-});
+}

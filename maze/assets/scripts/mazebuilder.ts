@@ -1,16 +1,16 @@
-function Maze(col, row, start) {
+function MazeBuilder(col, row, start) {
     this.col = col;
     this.row = row;
     this.start = start;
     // this.end = end;
 }
 // 向下取整，生成随机数
-Maze.prototype.random = function (k) {
+MazeBuilder.prototype.random = function (k) {
     return Math.floor(Math.random() * k);
 };
 
 
-Maze.prototype.generate = function () {
+MazeBuilder.prototype.generate = function () {
     // 生成 2R+1 行 2R+1 列数组
     this.mazeDataArray = [];
     for (let i = 0; i < 2 * this.col + 1; i++) {
@@ -107,4 +107,4 @@ Maze.prototype.generate = function () {
 };
 
 
-module.exports = Maze;
+export default MazeBuilder;

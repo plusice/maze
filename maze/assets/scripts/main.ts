@@ -1,14 +1,15 @@
-var global = require('global');
+const {ccclass, property} = cc._decorator;
 
+import  global from './global';
 
-var imageUrl = '';
-var loaded = function(){};
-var loadPromise = new Promise((resolve) => {
+let imageUrl = '';
+let loaded = function(){};
+let loadPromise = new Promise((resolve) => {
   loaded = resolve;
 });
-var comp = null;
-var hasUpdateRank = false;
-var ad = {
+let comp = null;
+let hasUpdateRank = false;
+let ad = {
   bannerAd: undefined,
   hasBannerAd: false,
   // 销毁显示的广告并且新建另外一个广告
@@ -87,29 +88,62 @@ if (global.cos_env === 'wx') {
   });
 }
 
-cc.Class({
-  extends: cc.Component,
+@ccclass
+export default class Main extends cc.Component {
+  private isStop:boolean = false;
+  private tempV:cc.Vec2;
+  private riped:boolean = false;
+  private revived:boolean = false;
+  private ripePanel:any;
 
-  properties: {
-    maze: cc.Node,
-    chick: cc.Node,
-    flag: cc.Node,
-    speed: cc.v2(0, 0),
-    stopBtn: cc.Node,
-    startBtn: cc.Node,
-    level: cc.Label,
-    dialogWrapper: cc.Node,
-    helpPanelPrefab: cc.Prefab,
-    passPanelPrefab: cc.Prefab,
-    ripePanelPrefab: cc.Prefab,
-    goonPanelPrefab: cc.Prefab,
-    rankPanel: cc.Node,
-    speedCoefficient: 0.1
-  },
+  @property(cc.Node)
+  maze: cc.Node;
 
-  // use this for initialization
+  @property(cc.Node)
+  chick:cc.Node;
+
+  @property(cc.Node)
+  flag: cc.Node;
+
+  @property(cc.Vec2)
+  speed: cc.Vec2 = cc.v2(0,0);
+
+  @property(cc.Node)
+  stopBtn: cc.Node;
+
+  @property(cc.Node)
+  startBtn: cc.Node;
+
+  @property(cc.Label)
+  level: cc.Label;
+
+  @property(cc.Node)
+  dialogWrapper: cc.Node;
+
+  @property(cc.Prefab)
+  helpPanelPrefab: cc.Prefab;
+
+  @property(cc.Prefab)
+  passPanelPrefab: cc.Prefab;
+
+  @property(cc.Prefab)
+  ripePanelPrefab: cc.Prefab;
+
+  @property(cc.Prefab)
+  goonPanelPrefab: cc.Prefab;
+
+  @property(cc.Node)
+  rankPanel: cc.Node;
+
+  @property(Number)
+  speedCoefficient: number = 0.1;
+
+
+  start () {
+
+  }
+
   onLoad () {
-    comp = this;
     this.level.string = `第${global.level}关`;
     // 根据关卡加速
     this.speedCoefficient = this.speedCoefficient + global.level * 0.1;
@@ -140,15 +174,15 @@ cc.Class({
     });
     this.GSensor();
 
-  },
+  }
 
   GSensor () {
     // 开启加速计
     cc.systemEvent.setAccelerometerEnabled(true);
     cc.systemEvent.on(cc.SystemEvent.EventType.DEVICEMOTION, this.onAccel, this);
-  },
+  }
 
-  onAccel: function(accelEvent) {
+  onAccel (accelEvent:any):Boolean {
     this.speed.x = accelEvent.acc.x/2;
     this.speed.y = accelEvent.acc.y/2;
     if (global.cos_env === 'wx' && global.platform === 'ios') {
@@ -156,10 +190,9 @@ cc.Class({
       this.speed.y = -this.speed.y;
     }
     return true;
-  },
+  }
 
-  // called every frame
-  update (dt) {
+  update () {
     if (this.isStop) {
       return;
     }
@@ -175,7 +208,8 @@ cc.Class({
     }
     rigidbody.linearVelocity = cc.v2(velocity.x + this.speed.x * this.speedCoefficient, velocity.y + this.speed.y * this.speedCoefficient);
     // rigidbody.linearVelocity = cc.v2(velocity.x + this.speed.x * this.speedCoefficient, velocity.y + this.speed.y * this.speedCoefficient);
-  },
+  }
+
   // 暂停游戏。保存当前速度并设置当前速度为0
   stopGame () {
     if (this.isStop) {
@@ -193,7 +227,8 @@ cc.Class({
     this.maze.getComponent('maze').clearElectricAndSound();
     // 暂停物理系统
     cc.director.getPhysicsManager().enabled = false;
-  },
+  }
+
   // 开始游戏并恢复速度
   startGame () {
     if (this.riped) {
@@ -211,8 +246,8 @@ cc.Class({
 
     // 准备广告
     ad.buildAd();
-  },
-  // 显示帮助弹窗，并在弹窗js组件中保存当前组件
+  }
+
   showHelp () {
     this.stopGame();
     let helpNode = cc.instantiate(this.helpPanelPrefab);
@@ -223,7 +258,8 @@ cc.Class({
       }
     }
     this.dialogWrapper.addChild(helpNode);
-  },
+  }
+
   passGame () {
     if (global.cos_env === 'wx') {
       let audio =  wx.createInnerAudioContext();
@@ -247,18 +283,10 @@ cc.Class({
     if (ad.bannerAd && ad.hasBannerAd) {
       ad.bannerAd.show();
     }
-  },
-  // 触电
-
-
-
+  }
 
   // 第一次显示排行榜和立即复活
   // 第二次显示分享和重新开始
-
-
-
-
   ripeGame () {
     if (this.riped) {
       return false;
@@ -280,7 +308,8 @@ cc.Class({
     if (ad.bannerAd && ad.hasBannerAd) {
       ad.bannerAd.show();
     }
-  },
+  }
+
   // 复活一次，复活后速度为0
   revive () {
     if (this.revived) {
@@ -294,7 +323,7 @@ cc.Class({
     let goonPanel = cc.instantiate(this.goonPanelPrefab);
     goonPanel.getComponent('goon-panel').game = this;
     this.dialogWrapper.addChild(goonPanel);
-  },
+  }
 
   shareGame ({title, imageUrl, query}) {
     wx.shareAppMessage({
@@ -302,7 +331,7 @@ cc.Class({
       imageUrl: imageUrl,
       query: query
     });
-  },
+  }
 
   showRank (isGroupRank) {
     if (!this.rankPanel.active) {
@@ -323,4 +352,4 @@ cc.Class({
       ad.bannerAd.show();
     }
   }
-});
+}

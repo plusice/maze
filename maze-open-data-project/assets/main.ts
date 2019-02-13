@@ -25,7 +25,6 @@ class RankItem extends cc.Component {
 
   @property(Number)
   time: number = 0;
-
 }
 
 @ccclass
@@ -230,16 +229,6 @@ export default class NewClass extends cc.Component {
         }
       });
     });
-    // let pro3 = new Promise(function(resolve, reject){
-    //   wx.getUserInfo({
-    //     openIdList: ['selfOpenId'],
-    //     lang: 'zh_CN',
-    //     success (res) {
-    //       comp.userGameData = Object.assign(comp.userGameData, res.data[0]);
-    //       resolve();
-    //     }
-    //   })
-    // });
     Promise.all([proOthers, proMe]).then(() => {
       comp.dataList = comp.friendDataList;
       comp.dataList.forEach(item => {
@@ -300,11 +289,13 @@ export default class NewClass extends cc.Component {
         // });
         comp.node.getChildByName('loading').active = false;
         selfNode.active = true;
-        selfNode.getChildByName('rank').getComponent(cc.Label).string = rankItemList[0].index;
-        selfNode.getChildByName('nick').getComponent(cc.Label).string = rankItemList[0].nickname.substr(0, 6);
-        selfNode.getChildByName('score').getComponent(cc.Label).string = `${rankItemList[0].score}关`;
-        selfNode.getChildByName('time').getComponent(cc.Label).string = filterTime(rankItemList[0].time);
-        selfNode.getChildByName('avatar').getComponent(cc.Sprite).spriteFrame = rankItemList[0].avatarSF;
+        selfNode.getComponent('ItemTemplate').init({
+          index: rankItemList[0].index,
+          avatarSF: rankItemList[0].avatarSF,
+          nickName: rankItemList[0].nickname.substr(0, 6),
+          score: `${rankItemList[0].score}关`,
+          time: filterTime(rankItemList[0].time)
+        });
         for (var i = 1; i < rankItemList.length; ++i) {
           var item = cc.instantiate(comp.rankItemPrefab);
           var data = rankItemList[i];
@@ -329,7 +320,7 @@ export default class NewClass extends cc.Component {
         }
       });
     });
-  },
+  }
 
   createImage (avatarUrl:string) {
     return new Promise((resolve, reject) => {

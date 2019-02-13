@@ -1,8 +1,8 @@
-let sysInfo = {};
+let sysInfo:any = {};
 if (window.wx) {
   sysInfo = wx.getSystemInfoSync();
 }
-module.exports = {
+export default {
   level: 1,
   time: 0,
   maxLevel: 7,
