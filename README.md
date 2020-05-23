@@ -3,3 +3,6 @@
 
 - maze目录是游戏主目录
 - maze-open-data-project目录是微信小游戏排行榜
+
+# 扫码玩一玩
+![](http://blog.plusice.net/images/chicken.jpg)
