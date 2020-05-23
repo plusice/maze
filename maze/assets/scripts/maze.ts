@@ -3,11 +3,17 @@ const {ccclass, property} = cc._decorator;
 import MazeBuilder from './mazebuilder';
 import  global from './global';
 
+interface cubePos {
+  x: number,
+  y: number
+}
+
 @ccclass
 export default class NewClass extends cc.Component {
   private mazeArray:any[];
   private electricTimer:any = null;
   private chickTimer:any = null;
+  private electricInterval:any = null;
 
   @property(cc.Node)
   electricNode: cc.Node = null
@@ -21,6 +27,10 @@ export default class NewClass extends cc.Component {
   mazeTurnPrefab: cc.Prefab = null
   @property(cc.Prefab)
   mazeShortPrefab: cc.Prefab = null
+  @property(cc.Prefab)
+  wormPrefab: cc.Prefab = null
+  @property(cc.Prefab)
+  elecPrefab: cc.Prefab = null
   @property(cc.Node)
   flag: cc.Node;
   @property(cc.Node)
@@ -130,6 +140,17 @@ export default class NewClass extends cc.Component {
           cube.setPosition(cc.v2(i * this.cubeWith - offsetI, j * this.cubeWith - offsetJ));
         }
       }
+      // 每一行的随机某一列放置虫子
+      // if (i%2 == 1 && i > 1) {
+      //   let len = this.mazeArray[i].length;
+      //   let wormIndex = Math.ceil(Math.random()*(len - 1));
+      //   while (this.mazeArray[i][wormIndex].value === 0 || (endPoint[0] === i && endPoint[1] === wormIndex)) {
+      //     wormIndex = Math.ceil(Math.random()*(len - 1));
+      //   }
+      //   let worm = cc.instantiate(this.wormPrefab);
+      //   this.node.addChild(worm);
+      //   worm.setPosition(cc.v2(i * this.cubeWith - offsetI, wormIndex * this.cubeWith - offsetJ - this.cubeWith/2));
+      // }
     }
     this.flag.setPosition(cc.v2(endPoint[0] * this.cubeWith - offsetI, endPoint[1] * this.cubeWith - offsetJ));
     this.sprite.setPosition(cc.v2(startPoint[0] * this.cubeWith - offsetI, (startPoint[1]) * this.cubeWith - offsetJ));
@@ -244,22 +265,11 @@ export default class NewClass extends cc.Component {
    * 播放闪电和声音
    */
   playElectricAndSound () {
-    // 保存迷宫的墙点
-    let wallPoints = [];
     let iLen = this.mazeArray.length,
       jLen = this.mazeArray[0].length;
     let offsetI = iLen * this.cubeWith / 2 - this.cubeWith / 2,
       offsetJ = jLen * this.cubeWith / 3 - this.cubeWith / 2;
-    for (let i = 0; i < iLen; i++) {
-      for (let j = 0; j < this.mazeArray[i].length; j++) {
-      if (this.mazeArray[i][j].value === 0) {
-        wallPoints.push({
-        x: i,
-        y: j
-        });
-      }
-      }
-    }
+    let electricPoints = this.getElectricPoints();
 
     // 加载音效
     let electricAudio, chickAudio;
@@ -270,28 +280,52 @@ export default class NewClass extends cc.Component {
       chickAudio.src = cc.url.raw('resources/audio/chick.mp3');
     }
 
-    let wallLen = wallPoints.length;
-    let anim = this.electricNode.getComponent(cc.Animation);
+    // let wallLen = wallPoints.length;
+    // let anim = this.electricNode.getComponent(cc.Animation);
 
-    play.call(this);
+    const electricNodes = initElectric.call(this);
     playChickSound.call(this);
-    // 随机时间在某个墙点出现闪电
-    function play() {
-      let wallPoint = wallPoints[Math.floor(Math.random() * wallLen)];
-      this.electricNode.setPosition(cc.v2(wallPoint.x * this.cubeWith - offsetI, wallPoint.y * this.cubeWith - offsetJ));
-      this.electricNode.setRotation(90 * Math.floor(Math.random() * 4));
-      this.electricNode.setScale([1,1.5][Math.floor(Math.random() * 2)]);
-      anim.play();
+    this.electricInterval = setInterval(() => {
+      for (let i = 0;i < electricNodes.length;i++) {
+        electricNodes[i].active = true;
+        let anim = electricNodes[i].getComponent(cc.Animation);
+        anim.play();
+        anim.on('finished',  function() {
+          electricNodes[i].active = false;
+        }, this);
+      }
+    }, 2000);
 
-      // var audio = document.createElement('audio');
-      // audio.src = cc.url.raw('resources/audio/electric.mp3');
-      // audio.play();
+    // 初始化出现的闪电
+    function initElectric() {
+      const electricNodes = [];
+      for (let i = 0;i < electricPoints.length;i++) {
+        // let wallPoint = wallPoints[Math.floor(Math.random() * wallLen)];
+        let wallPoint = electricPoints[i];
+        let electirc = cc.instantiate(this.elecPrefab);
+        electirc.active = false;
+        // let anim = electirc.getComponent(cc.Animation);
+        this.node.addChild(electirc);
+        electirc.setPosition(cc.v2(wallPoint.x * this.cubeWith - offsetI, wallPoint.y * this.cubeWith - offsetJ));
+        if (wallPoint.x === 0) {
+          electirc.setRotation(90);
+        } else if (wallPoint.x === this.mazeArray.length - 1 || wallPoint.y === 0) {
+          electirc.setRotation(0);
+        } else {
+          electirc.setScale(1);
+        }
+        electricNodes.push(electirc);
+        // anim.play();
+      }
+      // anim.play();
       electricAudio && electricAudio.play();
+      return electricNodes;
 
-      this.electricTimer = setTimeout(() => {
-      play.call(this);
-      }, [Math.random() * 3000 + 300, 4000][Math.floor(Math.random() * 2)]);
+      // this.electricTimer = setTimeout(() => {
+      //   play.call(this);
+      // }, [Math.random() * 3000 + 300, 4000][Math.floor(Math.random() * 2)]);
     }
+
     // 随机时间小鸡叫
     function playChickSound() {
       // var audio = document.createElement('audio');
@@ -303,10 +337,38 @@ export default class NewClass extends cc.Component {
       playChickSound.call(this);
       }, [Math.random() * 3000 + 2000, 5000][Math.floor(Math.random() * 2)]);
     }
-    }
+  }
 
-    clearElectricAndSound () {
-    clearTimeout(this.electricTimer);
+  /**
+   * 获取将要显示闪电的墙点
+   */
+  getElectricPoints(): cubePos[] {
+    // 迷宫的墙点
+    let wallPoints = [];
+    let electricPoints: cubePos[] = [];
+    let pointsNum = 3;
+    let iLen = this.mazeArray.length;
+    for (let i = 0; i < iLen; i++) {
+      // this.mazeArray[i].length - 1，最上面的墙不要
+      for (let j = 0; j < this.mazeArray[i].length - 1; j++) {
+      if (this.mazeArray[i][j].value === 0) {
+        wallPoints.push({
+          x: i,
+          y: j
+        });
+      }
+      }
+    }
+    for (let i = 0;i < pointsNum;i++) {
+      let unit = Math.floor(wallPoints.length/3);
+      electricPoints.push(wallPoints[i * unit + Math.floor(unit * Math.random())])
+    }
+    return electricPoints;
+  }
+
+  clearElectricAndSound () {
+    // clearTimeout(this.electricTimer);
+    clearInterval(this.electricInterval);
     clearTimeout(this.chickTimer);
     return this;
   }
@@ -316,7 +378,9 @@ export default class NewClass extends cc.Component {
   }
 
   onDestroy () {
-    clearTimeout(this.electricTimer);
-    this.electricTimer = null;
+    // clearTimeout(this.electricTimer);
+    // this.electricTimer = null;
+    clearInterval(this.electricInterval);
+    this.electricInterval = null;
   }
 }

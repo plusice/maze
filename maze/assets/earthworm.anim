@@ -1,0 +1,29 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "earthworm",
+  "_objFlags": 0,
+  "_native": "",
+  "_duration": 0.6666666666666666,
+  "sample": 30,
+  "speed": 0.6,
+  "wrapMode": "2",
+  "curveData": {
+    "props": {
+      "scaleY": [
+        {
+          "frame": 0,
+          "value": 1
+        },
+        {
+          "frame": 0.3333333333333333,
+          "value": 0.5
+        },
+        {
+          "frame": 0.6666666666666666,
+          "value": 1
+        }
+      ]
+    }
+  },
+  "events": []
+}

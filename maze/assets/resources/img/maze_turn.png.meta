@@ -1,13 +1,16 @@
 {
-  "ver": "2.2.0",
+  "ver": "2.3.3",
   "uuid": "0e26a613-1684-4380-a044-0ca6328a94a2",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
+  "genMipmaps": false,
+  "packable": true,
+  "platformSettings": {},
   "subMetas": {
     "maze_turn": {
-      "ver": "1.0.3",
+      "ver": "1.0.4",
       "uuid": "8f50c5df-2918-4d05-a1ad-6a76fada1c54",
       "rawTextureUuid": "0e26a613-1684-4380-a044-0ca6328a94a2",
       "trimType": "auto",

@@ -4,6 +4,7 @@ if (window.wx) {
 }
 export default {
   level: 1,
+  score: 0,
   time: 0,
   maxLevel: 7,
   cos_env: window.wx ? 'wx' : 'web',

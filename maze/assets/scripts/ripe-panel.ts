@@ -9,9 +9,10 @@ export default class NewClass extends cc.Component {
 
 	// 第一次调用原地复活
 	restartGame () {
-		// global.level = 1;
-		// global.time = 0;
 		if (this.game.revived) {
+			global.level = 1;
+			global.time = 0;
+			global.score = 0;
 		  cc.director.loadScene('main');
 		} else {
 		  this.game.revive();

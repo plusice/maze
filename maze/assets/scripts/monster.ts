@@ -10,8 +10,8 @@ export default class NewClass extends cc.Component {
 	@property(cc.Sprite)
 	ripeSprite: cc.Sprite;
 
-	onBeginContact (contact:any, selfCollider:any, otherCollider:any) {
-		if (this.game.isStop || otherCollider.node.name === 'flag') {
+	onCollisionEnter (otherCollider:any) {
+		if (this.game.isStop || !(otherCollider.node.name === 'electric')) {
 			return false;
 		}
 		if (global.cos_env === 'wx') {
